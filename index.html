@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="en">
+
+<head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,72 +12,269 @@
 
 	 <title>AEM Stuff</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="http://getbootstrap.com/examples/sticky-footer-navbar/sticky-footer-navbar.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="css/aemstuff.css">
+    <!-- Custom CSS -->
+    <link href="css/aemstuff_1.css" rel="stylesheet">
 
-  </head>
+    <!-- Custom Fonts -->
+    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
-  <body>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<style>
 
-    <!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">AEM Stuff</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="index.html">Home</a></li>
+  .feedList{ list-style:none outside none;background-color:#FFFFFF; border:1px solid #D3CAD7; padding:4px 6px; color:#3E3E3E;
+  vertical-align:left;
+  }
+.feedList li{border-bottom:1px solid #D3CAD7; padding:5px;}
+.feedList li:last-child{border-bottom:none;}
+.itemTitle a{font-weight:bold; color:#4EBAFF !important; text-decoration:none }
+.itemTitle a:hover{ text-decoration:underline }
+ </style>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <!-- jQuery Version 1.11.0 -->
+    <script src="js/jquery.min.js"></script>
+
+
+    <script type="text/javascript">
+
+    google.load("feeds", "1");
+
+    function initialize() {
+      var feed = new google.feeds.Feed("http://aemfaq.blogspot.com/feeds/posts/default?alt=rss");
+      //var feed = new google.feeds.Feed("http://cqblog.inside-solutions.ch/?feed=rss2");
+      //var feed = new google.feeds.Feed("http://www.wemblog.com/feeds/posts/default?alt=rss");
+      //var feed = new google.feeds.Feed("http://cq-ops.tumblr.com/rss");
+      //var feed = new google.feeds.Feed("http://feeds.feedburner.com/citytechinc");
+      //var feed = new google.feeds.Feed("http://experience-aem.blogspot.com/feeds/posts/default?alt=rss";
+      feed.includeHistoricalEntries();
+
+      feed.setNumEntries(-1);
+      feed.load(function(result) {
+        if (!result.error) {
+          var container = document.getElementById("articleList");
+          var articleContainer = document.getElementById("articleModals");
+          var marker = 1000;
+          var i = result.feed.entries.length;
+          while(i--){
+            var entry = result.feed.entries[i];
+            var s = "" ;
+            var cont = "" ;
+
+                s=s+"<div class=\"col-sm-4 portfolio-item\">";
+                s=s+"    <a id=\""+entry.title+"\" href=\"#article"+marker+"\" class=\"portfolio-link\" data-toggle=\"modal\">";
+                s=s+"        <div class=\"caption\">";
+                s=s+"            <div class=\"caption-content\">";
+                s=s+"                <i class=\"fa fa-search-plus fa-3x\"></i>";
+                s=s+"            </div>";
+                s=s+"        </div>";
+                s=s+   entry.title;
+                s=s+"    </a>";
+                s=s+"</div>";
+
+    cont=cont+"<div class=\"portfolio-modal modal fade\" id=\"article"+marker+"\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">";
+    cont=cont+"    <div class=\"modal-content\">";
+    cont=cont+"        <div class=\"close-modal\" data-dismiss=\"modal\">";
+    cont=cont+"            <div class=\"lr\">";
+    cont=cont+"                <div class=\"rl\">";
+    cont=cont+"                </div>";
+    cont=cont+"            </div>";
+    cont=cont+"        </div>";
+    cont=cont+"        <div class=\"container\">";
+    cont=cont+"            <div class=\"row\">";
+    cont=cont+"                <div class=\"col-lg-12 col-lg-offset-0 text-left\">";
+    cont=cont+"                    <div class=\"modal-body\">";
+
+            cont=cont+"<ul class=\"feedList\">";
+			cont=cont+"<li><div class=\"itemTitle\"><a href=\""+entry.link+"\" >"+entry.title+"</a></div>";
+			cont=cont+"<div class=\"itemContent\">"+entry.content+"</div>";
+			cont=cont+"</ul>";
+
+
+    cont=cont+"         <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\"><i class=\"fa fa-times\"></i> Close</button>";
+    cont=cont+"                    </div>";
+    cont=cont+"                </div>";
+    cont=cont+"            </div>";
+    cont=cont+"        </div>";
+    cont=cont+"    </div>";
+    cont=cont+"</div>";
+
+			--marker ;
+            container.innerHTML = container.innerHTML + s ;
+            articleContainer.innerHTML = articleContainer.innerHTML + cont ;
+
+          }
+        }
+		 anchorCheck();
+      });
+
+    }
+    google.setOnLoadCallback(initialize);
+
+
+	function anchorCheck(){
+		if(window.location.hash){
+			var idName = window.location.hash;
+			$(idName).modal('show') ;
+		}
+	}
+
+
+    </script>
+
+
+
+</head>
+
+<body id="page-top" class="index" >
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#page-top">AEM Stuff</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#portfolio">Articles</a>
+                    </li>
             <li class="dropdown">
               <a href="osgi.html" class="dropdown-toggle" data-toggle="dropdown">OSGi <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
+					<li><a href="osgi.html">AEM Osgi Config overview</a></li>
 					<li><a href="osgi/aem6.html">AEM 6.0</a></li>
 					<li><a href="osgi/aem561.html">AEM 5.6.1</a></li>
 					<li><a href="osgi/aem56.html">AEM 5.6</a></li>
 					<li><a href="osgi/aem55.html">AEM 5.5</a></li>
               </ul>
             </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
+
+            <li class="dropdown">
+              <a href="tools.html" class="dropdown-toggle" data-toggle="dropdown">Tools <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+					<li><a href="tools/nodediff.html">Node Diff</a></li>
+              </ul>
+            </li>
+
+
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!--img class="img-responsive" src="img/profile.png" alt=""-->
+                    <div class="intro-text">
+                        <span class="name">AEM Stuff</span>
+                        <hr class="star-light">
+                        <span class="skills">Our Experience drives towards your innovation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Portfolio Grid Section -->
+    <section id="portfolio">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>Articles</h2>
+                    <hr class="star-primary">
+                </div>
+            </div>
+            <div class="row" id="articleList">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="footer-above">
+            <div class="container">
+                <div class="row">
+                    <div class="footer-col col-md-4">
+                    </div>
+                    <div class="footer-col col-md-4">
+                        <h3>Around the Web</h3>
+                        <ul class="list-inline">
+                            <li>
+                                <a href="https://twitter.com/intent/follow?original_referer=http%3A%2F%2Fwww.aemstuff.com%2F&region=follow_link&screen_name=adobe_sham&tw_p=followbutton&variant=2.0" class="btn-social btn-outline"><i class="fa fa-fw fa-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a href="http://www.linkedin.com/pub/sham-sundar-hassan-chikkegowda/17/3a5/6b0" class="btn-social btn-outline"><i class="fa fa-fw fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-col col-md-4">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-below">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <a href="disclaimer.html">Disclaimer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+    <div class="scroll-top page-scroll visible-xs visble-sm">
+        <a class="btn btn-primary" href="#page-top">
+            <i class="fa fa-chevron-up"></i>
+        </a>
     </div>
 
-    <!-- Begin page content -->
-    <div class="container">
-      <div class="page-header">
-        <h1>Welcome to AEM stuff</h1>
-      </div>
-      <p class="lead">Our Experience drives towards your innovation</p>
-      <p >Still under development</p>
-    </div>
+    <!-- Portfolio Modals -->
+    <div id="articleModals">
 
-    <div class="footer">
-      <div class="container">
-        <p class="text-muted">
-        	<a href="disclaimer.html">Disclaimer</a>
-<a href="https://twitter.com/adobe_sham" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @adobe_sham</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-        </p>
-      </div>
     </div>
 
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-  <script type="text/javascript" charset="utf8" src="js/aemstuff.js">  </script>
+    <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-  <!-- jQuery -->
-<script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 
-</body></html>
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="js/classie.js"></script>
+    <script src="js/cbpAnimatedHeader.js"></script>
+
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/aemstuff_1.js"></script>
+
+</body>
+
+</html>
