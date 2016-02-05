@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="AEM Index defnition cheatsheet">
+    <meta name="author" content="Sham HC">
+    <link rel="icon" href="../images/favicon.ico">
+
+	 <title>Cheat sheet of aem index definition</title>
+
+    <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../css/aemstuff_1.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/plug-ins/be7019ee387/integration/jqueryui/dataTables.jqueryui.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="../../font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+        <!-- jQuery Version 1.11.0 -->
+    <script src="../../js/jquery.min.js"></script>
+
+
+</head>
+
+<body id="page-top" class="index" >
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#page-top">AEM Stuff</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li >
+                        <a href="../../index.html">Home</a>
+                    </li>
+                    <li >
+                        <a href="../blogs.html">Blogs</a>
+                    </li>
+            <li class="dropdown">
+              <a href="../../osgi.html" class="dropdown-toggle" data-toggle="dropdown">OSGi <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+					<li><a href="../../osgi.html">AEM Osgi Config overview</a></li>
+					<li><a href="../../osgi/aem61.html">AEM 6.1</a></li>
+					<li><a href="../../osgi/aem6.html">AEM 6.0</a></li>
+					<li><a href="../../osgi/aem561.html">AEM 5.6.1</a></li>
+					<li><a href="../../osgi/aem56.html">AEM 5.6</a></li>
+					<li><a href="../../osgi/aem55.html">AEM 5.5</a></li>
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href="../../tools.html" class="dropdown-toggle" data-toggle="dropdown">Tools <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+					<li><a href="../../tools/nodediff.html">Node Diff</a></li>
+					<li><a class="active" href="../../tools/coi.html">Out of the box Sanity Check</a></li>
+					<li><a href="../../tools/dispatcheronlinetracker.html">Dispatcher Online Release Tracker</a></li>
+              </ul>
+            </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!--img class="img-responsive" src="img/profile.png" alt=""-->
+                    <div class="intro-text">
+                        <span class="name">Cheat sheet of aem index definition structure</span>
+                        <hr class="star-light">
+                        <span class="skills">List (~100) of available oak Query Index Definition.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Portfolio Grid Section -->
+    <section id="portfolio">
+        <div class="container">
+
+<div class="row">
+				<div class="col-lg-12">
+					<article>
+
+						<h3>Summary</h3><hr>
+
+				          <p class="lead">Oak does not index as much content by default as does Jackrabbit 2. You need to create custom indexes when necessary, much like in traditional RDBMSs.The intention of article is to provide cheatsheat of defnition structure.</p>
+
+						<h3>Notes</h3><hr>
+						 <div class="row">
+<ol style="list-style: decimal inside;">
+<li>For upto date information and more details refer
+	<ul>
+      <li>Oak Documentation<a href="https://jackrabbit.apache.org/oak/docs/query/query.html" target="_new"> https://jackrabbit.apache.org/oak/docs/query/query.html</a></li>
+      <li>Oak Queries and Indexing <a href="https://docs.adobe.com/docs/en/aem/6-0/deploy/upgrade/queries-and-indexing.html" target="_new"> https://docs.adobe.com/docs/en/aem/6-0/deploy/upgrade/queries-and-indexing.html</a> </li>
+      <li>Best Practices for Queries and Indexing <a href="https://docs.adobe.com/docs/en/aem/6-0/deploy/best-practices/best-practices-for-queries-and-indexing.html" target="_new"> https://docs.adobe.com/docs/en/aem/6-0/deploy/best-practices/best-practices-for-queries-and-indexing.html</a></li>
+    </ul>
+</li>
+<li>Get Latest Oak Hotfix
+	<ul>
+      <li> <a href="https://helpx.adobe.com/experience-manager/kb/aem61-available-hotfixes.html" target="_new"> 6.1</a></li>
+      <li> <a href="https://helpx.adobe.com/experience-manager/kb/aem6-available-hotfixes.html" target="_new"> 6.0</a></li>
+    </ul>
+</li>
+<li>Must watch Recording Video
+	<ul>
+      <li> <a href="http://dev.day.com/content/ddc/en/gems/oak-lucene-indexes.html" target="_new">Gems session</a></li>
+      <li> <a href="http://dev.day.com/content/ddc/en/gems/aem-6-oak--mongomk-and-queries.html" target="_new">MongoMk & Queries</a></li>
+    </ul>
+</li>
+<li>Special Thanks to Tommaso Teofili, Chetan Mehrotra, Alex Parvulescu , Andrew Khoury, Thomas Mueller, Davide Giannella,  Eren Aydin,Varun Mehrotra,  Goran Brodnik and Vikas Saurabh for the willingness to help me in the journey of some of challenging task with index. </li>
+
+</ol>
+				          </div>
+					</article>
+
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+
+<table id="example-advanced">
+        <caption>
+          <a href="#" onclick="jQuery('#example-advanced').treetable('expandAll'); return false;">Expand all</a>
+          <a href="#" onclick="jQuery('#example-advanced').treetable('collapseAll'); return false;">Collapse all</a>
+        </caption>
+        <thead>
+          <tr>
+            <th width="40%">Node/Property Name</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th  width="40%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr data-tt-id='1'><td><span class='folder'>oak:index</span></td><td>nt:unstructured</td><td></td><td></td></tr>
+      <tr data-tt-id='2' data-tt-parent-id='1'><td><span class='folder'>indexName</span></td><td>oak:QueryIndexDefinition</td><td></td><td>lucene async index for full text,property,sorting etc...</td></tr>
+      <tr data-tt-id='2-1' data-tt-parent-id='2'><td><span class='file'>compatVersion</span></td><td>long</td><td></td><td>By default Oak uses older Lucene index implementation which does not supports property restrictions, index time aggregation etc. To make use of this feature set it to 2. </td></tr>
+      <tr data-tt-id='2-2' data-tt-parent-id='2'><td><span class='file'>type</span></td><td>String</td><td></td><td>set to lucene. Lucene index can be used to evaluate property constraints, full text constraints, path restrictions and sorting. </td></tr>
+      <tr data-tt-id='2-3' data-tt-parent-id='2'><td><span class='file'>async</span></td><td>String</td><td></td><td>set to async. sends the index update process to a background thread.  it might lag behind in reflecting the current repository state while performing the query. </td></tr>
+      <tr data-tt-id='2-4' data-tt-parent-id='2'><td><span class='file'>name</span></td><td>String</td><td></td><td>Captures the name of the index which is used while logging </td></tr>
+      <tr data-tt-id='2-5' data-tt-parent-id='2'><td><span class='file'>blobSize</span></td><td>long</td><td></td><td>    Size in bytes used for splitting the index files when storing them in NodeStore. </td></tr>
+      <tr data-tt-id='2-6' data-tt-parent-id='2'><td><span class='file'>evaluatePathRestrictions</span></td><td>boolean</td><td></td><td>    If enabled the index can evaluate path restrictions. </td></tr>
+      <tr data-tt-id='2-7' data-tt-parent-id='2'><td><span class='file'>includedPaths</span></td><td>String []</td><td>/</td><td>  Oak 1.0.14, 1.2.3  List of paths which should be included in indexing. </td></tr>
+      <tr data-tt-id='2-8' data-tt-parent-id='2'><td><span class='file'>excludedPaths</span></td><td>String []</td><td>empty</td><td>  Oak 1.0.14, 1.2.3  List of paths which should be excluded from indexing. </td></tr>
+      <tr data-tt-id='2-9' data-tt-parent-id='2'><td><span class='file'>maxFieldLength</span></td><td>long</td><td>10000</td><td>Numbers of terms indexed per field. </td></tr>
+      <tr data-tt-id='2-10' data-tt-parent-id='2'><td><span class='file'>codec</span></td><td>String</td><td></td><td>By default if the index involves fulltext indexing then Oak Lucene uses OakCodec which disables compression. Due to this the index size may grow large. To enable compression you can set the codec to Lucene46.  Refer to OAK-2853 for details. </td></tr>
+      <tr data-tt-id='2-11' data-tt-parent-id='2'><td><span class='file'>indexPath</span></td><td>String</td><td></td><td>Path of the index definition in the repository. To speed up the indexing with CopyOnWrite you would also need to set indexPath in index definition to the path of index in the repository. For e.g. if your index is defined at /oak:index/lucene then value of indexPath should be set to /oak:index/lucene. This would enable the indexer to perform any read during the indexing process locally and thus avoid costly read from remote. For more details refer to OAK-2247. This feature can be enabled via Lucene Index provider service configuration</td></tr>
+      <tr data-tt-id='2-12' data-tt-parent-id='2'><td><span class='file'>functionName</span></td><td>String</td><td></td><td>    Name to be used to enable index usage with native query support. </td></tr>
+      <tr data-tt-id='2-13' data-tt-parent-id='2'><td><span class='file'>queryPaths</span></td><td></td><td></td><td>https://issues.apache.org/jira/browse/OAK-2599 </td></tr>
+      <tr data-tt-id='2-14' data-tt-parent-id='2'><td><span class='file'>reindex</span></td><td>boolean</td><td></td><td> </td></tr>
+      <tr data-tt-id='2-15' data-tt-parent-id='2'><td><span class='file'>persistence</span></td><td>String</td><td></td><td>To store the Lucene index in the file system, in the Lucene index definition node, set the property persistence to file, and set the property path to the directory where the index should be stored. </td></tr>
+      <tr data-tt-id='2-16' data-tt-parent-id='2'><td><span class='file'>path</span></td><td>String</td><td></td><td>To store the Lucene index in the file system, in the Lucene index definition node, set the property persistence to file, and set the property path to the directory where the index should be stored. </td></tr>
+      <tr data-tt-id='2-17' data-tt-parent-id='2'><td><span class='folder'>indexRules</span></td><td>nt:unstructured</td><td></td><td></td></tr>
+      <tr data-tt-id='2-17-1' data-tt-parent-id='2-17'><td><span class='folder'>ruleName</span></td><td>nt:unstructured</td><td></td><td>An index configuration can define one or more indexingRules for different nodeTypes.The ruleName will be nodeName like nt:base</td></tr>
+      <tr data-tt-id='2-17-1-1' data-tt-parent-id='2-17-1'><td><span class='file'>inherited</span></td><td>boolean</td><td>true</td><td>Determines if the rule is applicable on exact match or can be applied if match is done on basis of nodeType inheritance</td></tr>
+      <tr data-tt-id='2-17-1-2' data-tt-parent-id='2-17-1'><td><span class='file'>indexNodeName</span></td><td>boolean</td><td>false</td><td>since Oak 1.0.20, 1.2.5 If set to true then index would also be created for node name. This would enable faster evaluation of queries involving constraints on Node name. For example:-   select [jcr:path] from [nt:base] where NAME() = 'kite'</td></tr>
+      <tr data-tt-id='2-17-1-3' data-tt-parent-id='2-17-1'><td><span class='file'>includePropertyTypes</span></td><td>String []</td><td></td><td>    Applicable when index is enabled for fulltext indexingFor full text index defaults to include all typesString array of property types which should be indexed.</td></tr>
+      <tr data-tt-id='2-17-1-4' data-tt-parent-id='2-17-1'><td><span class='file'>costPerExecution</span></td><td>Double</td><td></td><td> For each query, the overhead is one operation. For each entry in the index, the cost is one. </td></tr>
+      <tr data-tt-id='2-17-1-5' data-tt-parent-id='2-17-1'><td><span class='file'>costPerEntry</span></td><td>Double</td><td></td><td> For each query, the overhead is one operation. For each entry in the index, the cost is one. </td></tr>
+      <tr data-tt-id='2-17-1-6' data-tt-parent-id='2-17-1'><td><span class='folder'>properties</span></td><td>nt:unstructured</td><td></td><td>Each index rule consist of one ore more property definition defined under properties.</td></tr>            
+      <tr data-tt-id='2-17-1-6-1' data-tt-parent-id='2-17-1-6'><td><span class='folder'>propertyName</span></td><td>nt:unstructured</td><td></td><td>Can be any name generally provide property name.</td></tr>
+      <tr data-tt-id='2-17-1-6-1-1' data-tt-parent-id='2-17-1-6-1'><td><span class='file'>name</span></td><td>String</td><td></td><td>Property name. If not defined then property name is set to the node name. If isRegexp is true then it defines the regular expression only to immediate property. Can also be set to a relative property.</td></tr>
+      <tr data-tt-id='2-17-1-6-1-2' data-tt-parent-id='2-17-1-6-1'><td><span class='file'>propertyIndex</span></td><td>boolean</td><td></td><td>    Whether the index for this property is used for equality conditions, ordering, and is not null conditions.</td></tr>
+      <tr data-tt-id='2-17-1-6-1-3' data-tt-parent-id='2-17-1-6-1'><td><span class='file'>isRegexp</span></td><td>boolean</td><td></td><td>"    If set to true then property name would be interpreted as a regular expression and the given definition would be applicable for matching property names. Note that expression should be structured such that it does not match ‘/’.        .* - This property definition is applicable for all properties of given node        jcr:content/metadata/.* - This property definition is applicable for all properties of child node jcr:content/metadata"</td></tr>
+      <tr data-tt-id='2-17-1-6-1-4' data-tt-parent-id='2-17-1-6-1'><td><span class='file'>nodeScopeIndex</span></td><td>boolean</td><td></td><td>"Control whether the value of a property should be part of fulltext index. That is, you can do a jcr:contains(., ‘foo’) and it will return nodes that have a string property that contains the word foo. Example    //element(*, app:Asset)[jcr:contains(., ‘image’)]"</td></tr>
+      <tr data-tt-id='2-17-1-6-1-5' data-tt-parent-id='2-17-1-6-1'><td><span class='file'>boost</span></td><td>double</td><td></td><td>since Oak 1.2.5 If the property is included in nodeScopeIndex then it defines the boost done for the index value against the given property name.</td></tr>
+      <tr data-tt-id='2-17-1-6-1-6' data-tt-parent-id='2-17-1-6-1'><td><span class='file'>index</span></td><td>boolean</td><td></td><td>    Determines if this property should be indexed. Mostly useful for fulltext index where some properties need to be excluded from getting indexed.</td></tr>
+      <tr data-tt-id='2-17-1-6-1-7' data-tt-parent-id='2-17-1-6-1'><td><span class='file'>useInExcerpt</span></td><td>boolean</td><td></td><td>Controls whether the value of a property should be used to create an excerpt. The value of the property is still full-text indexed when set to false, but it will never show up in an excerpt for its parent node. If set to true then property value would be stored separately within index causing the index size to increase. So set it to true only if you make use of excerpt feature</td></tr>
+      <tr data-tt-id='2-17-1-6-1-8' data-tt-parent-id='2-17-1-6-1'><td><span class='file'>analyzed</span></td><td>boolean</td><td></td><td>"Set this to true if the property is used as part of contains. Example    //element(*, app:Asset)[jcr:contains(type, ‘image’)]"</td></tr>
+      <tr data-tt-id='2-17-1-6-1-9' data-tt-parent-id='2-17-1-6-1'><td><span class='file'>ordered</span></td><td>boolean</td><td></td><td>"If the property is to be used in order by clause to perform sorting then this should be set to true. This should be set to true only if the property is to be used to perform sorting as it increases the index size. Example    //element(*, app:Asset)[jcr:contains(type, ‘image’)] order by @size"</td></tr>
+      <tr data-tt-id='2-17-1-6-1-10' data-tt-parent-id='2-17-1-6-1'><td><span class='file'>type</span></td><td>String</td><td></td><td>JCR Property type. Can be one of Date, Boolean, Double or Long. Mostly inferred from the indexed value. However in some cases where same property type is not used consistently across various nodes then it would recommened to specify the type explicitly.</td></tr>
+      <tr data-tt-id='2-17-1-6-1-11' data-tt-parent-id='2-17-1-6-1'><td><span class='file'>nullCheckEnabled</span></td><td>boolean</td><td></td><td>"    Since 1.0.12    If the property is checked for is null then this should be set to true. This should only be enabled for nodeTypes which are not generic as it leads to index entry for all nodes of that type where this property is not set. _//element(*, app:Asset)[not(jcr:content/@excludeFromSearch)] It would be better to use a query which checks for property existence or property being set to specific values as such queries can make use of index without any extra storage cost."</td></tr>
+      <tr data-tt-id='2-17-1-6-1-12' data-tt-parent-id='2-17-1-6-1'><td><span class='file'>useInSuggest</span></td><td>boolean</td><td></td><td>since Oak 1.1.17, 1.0.15 controls from which properties terms to be used for suggestions will be taken.</td></tr>
+      <tr data-tt-id='2-17-1-6-1-13' data-tt-parent-id='2-17-1-6-1'><td><span class='file'>useInSpellcheck</span></td><td>boolean</td><td></td><td>since Oak 1.1.17, 1.0.13 controls from which properties terms to be used for spellcheck corrections will be taken.</td></tr>
+      <tr data-tt-id='2-17-1-6-1-14' data-tt-parent-id='2-17-1-6-1'><td><span class='file'>facets</span></td><td>boolean</td><td></td><td>since Oak 1.3.14 "used for retrieving facets, in order to do so the property facets must be set to true on the property definition."</td></tr>
+      <tr data-tt-id='2-17-1-6-1-15' data-tt-parent-id='2-17-1-6-1'><td><span class='folder'>facets</span></td><td>nt:unstructured</td><td></td><td>since Oak 1.3.14 By default ACL checks are always performed on facets by the Lucene property index however this can be avoided by setting the property secure to false in the facets configuration node.</td></tr>
+      <tr data-tt-id='2-17-1-6-1-15-1' data-tt-parent-id='2-17-1-6-1-15'><td><span class='file'>secure</span></td><td>boolean</td><td></td><td></td></tr>
+      <tr data-tt-id='2-18' data-tt-parent-id='2'><td><span class='folder'>aggregates</span></td><td>nt:unstructured</td><td></td><td> to include the contents of descendant nodes into a single node to easier search on content that is scattered across multiple nodes.</td></tr>
+      <tr data-tt-id='2-18-1' data-tt-parent-id='2-18'><td><span class='folder'>ruleName</span></td><td>nt:unstructured</td><td></td><td>An index configuration can define one or more aggregates for different nodeTypes.The ruleName will be nodeName like nt:base</td></tr>
+      <tr data-tt-id='2-18-1-1' data-tt-parent-id='2-18-1'><td><span class='file'>reaggregateLimit</span></td><td>long</td><td>5</td><td> (See JCR-2989 for details).</td></tr>
+      <tr data-tt-id='2-18-1-2' data-tt-parent-id='2-18-1'><td><span class='folder'>aggregateNodeInclude</span></td><td>nt:unstructured</td><td></td><td></td></tr>
+      <tr data-tt-id='2-18-1-2-1' data-tt-parent-id='2-18-1-2'><td><span class='file'>path</span></td><td>String</td><td></td><td>"Path pattern to include. Example<BR/>jcr:content - Name explicitly specified<BR/>* - Any child node at depth 1<BR/>*/* - Any child node at depth 2</td></tr>
+      <tr data-tt-id='2-18-1-2-2' data-tt-parent-id='2-18-1-2'><td><span class='file'>primaryType</span></td><td>String</td><td></td><td>Restrict the included nodes to a certain type. The restriction would be applied on the last node in given path</td></tr>
+      <tr data-tt-id='2-18-1-2-3' data-tt-parent-id='2-18-1-2'><td><span class='file'>relativeNode</span></td><td>boolean</td><td></td><td>Boolean property indicates that query can be performed against specific node </td></tr>
+      <tr data-tt-id='2-19' data-tt-parent-id='2'><td><span class='folder'>analyzers</span></td><td>nt:unstructured</td><td></td><td> @since Oak 1.2.0 </td></tr>
+      <tr data-tt-id='2-19-1' data-tt-parent-id='2-19'><td><span class='folder'>default</span></td><td>nt:unstructured</td><td></td><td></td></tr>
+    <tr data-tt-id='2-19-1-1' data-tt-parent-id='2-19-1'><td><span class='file'>class</span></td><td>String</td><td></td><td>Example:- org.apache.lucene.analysis.standard.StandardAnalyzer</td></tr>
+      <tr data-tt-id='2-19-1-2' data-tt-parent-id='2-19-1'><td><span class='file'>luceneMatchVersion</span></td><td>String</td><td></td><td>To confirm to specific version specify it via luceneMatchVersion otherwise Oak would use a default version depending on version of Lucene it is shipped with. Ex:- LUCENE_47</td></tr>
+      <tr data-tt-id='2-19-1-3' data-tt-parent-id='2-19-1'><td><span class='file'>stopwords</span></td><td>nt:file</td><td></td><td></td></tr>
+      <tr data-tt-id='2-19-1-4' data-tt-parent-id='2-19-1'><td><span class='folder'>charFilters</span></td><td>nt:unstructured</td><td></td><td>The filters needs to be ordered</td></tr>
+      <tr data-tt-id='2-19-1-4-1' data-tt-parent-id='2-19-1-4'><td><span class='file'>HTMLStrip</span></td><td></td><td></td><td></td></tr>
+      <tr data-tt-id='2-19-1-4-2' data-tt-parent-id='2-19-1-4'><td><span class='file'>Mapping</span></td><td></td><td></td><td></td></tr>
+      <tr data-tt-id='2-19-1-4-3' data-tt-parent-id='2-19-1'><td><span class='folder'>tokenizer</span></td><td>nt:unstructured</td><td></td><td>The filters needs to be ordered</td></tr>
+      <tr data-tt-id='2-19-1-4-3-1' data-tt-parent-id='2-19-1-4-3'><td><span class='file'>name</span></td><td></td><td></td><td></td></tr>
+      <tr data-tt-id='2-19-1-4-4' data-tt-parent-id='2-19-1'><td><span class='folder'>filters</span></td><td>nt:unstructured</td><td></td><td>The filters needs to be ordered</td></tr>
+      <tr data-tt-id='2-19-1-4-4-1' data-tt-parent-id='2-19-1-4-4'><td><span class='file'>LowerCase</span></td><td></td><td></td><td></td></tr>
+      <tr data-tt-id='2-19-1-4-4-2' data-tt-parent-id='2-19-1-4-4'><td><span class='folder'>Stop</span></td><td>nt:unstructured</td><td></td><td></td></tr>
+      <tr data-tt-id='2-19-1-4-4-2-1' data-tt-parent-id='2-19-1-4-4-2'><td><span class='file'>words</span></td><td></td><td></td><td></td></tr>
+      <tr data-tt-id='2-19-1-4-4-2-1-1' data-tt-parent-id='2-19-1-4-4-2'><td><span class='folder'>stopx.txt</span></td><td>nt:file</td><td></td><td>one or more file nodes. x can be 1 to n </td></tr>
+      <tr data-tt-id='2-19-1-4-4-3' data-tt-parent-id='2-19-1-4-4'><td><span class='folder'>PorterStem</span></td><td>nt:unstructured</td><td></td><td></td></tr>
+     <tr data-tt-id='2-19-1-4-4-4' data-tt-parent-id='2-19-1-4-4'><td><span class='folder'>Synonym</span></td><td>nt:unstructured</td><td></td><td></td></tr>
+      <tr data-tt-id='2-19-1-4-4-4-1' data-tt-parent-id='2-19-1-4-4-4'><td><span class='file'>synonyms</span></td><td></td><td></td><td></td></tr>
+      <tr data-tt-id='2-19-1-4-4-4-2' data-tt-parent-id='2-19-1-4-4-4'><td><span class='folder'>synonym.txt</span></td><td>nt:file</td><td></td><td>one or more file nodes. x can be 1 to n </td></tr>
+      <tr data-tt-id='2-19-2' data-tt-parent-id='2-19'><td><span class='folder'>pathText</span></td><td>nt:unstructured</td><td></td><td></td></tr>
+      <tr data-tt-id='2-20' data-tt-parent-id='2'><td><span class='folder'>tika</span></td><td>nt:unstructured</td><td></td><td> </td></tr>
+      <tr data-tt-id='2-20-1' data-tt-parent-id='2-20'><td><span class='file'>maxExtractLength</span></td><td>long</td><td></td><td></td></tr>
+      <tr data-tt-id='2-20-2' data-tt-parent-id='2-20'><td><span class='folder'>config.xml</span></td><td>nt:file</td><td></td><td>https://github.com/apache/jackrabbit-oak/blob/trunk/oak-lucene/src/main/resources/org/apache/jackrabbit/oak/plugins/index/lucene/tika-config.xml</td></tr> 
+      <tr data-tt-id='2-21' data-tt-parent-id='2'><td><span class='folder'>suggestion</span></td><td>nt:unstructured</td><td></td><td> </td></tr>
+      <tr data-tt-id='2-21-1' data-tt-parent-id='2-21'><td><span class='file'>suggestUpdateFrequencyMinutes</span></td><td>long</td><td></td><td></td></tr>
+      <tr data-tt-id='2-21-2' data-tt-parent-id='2-21'><td><span class='file'>suggestAnalyzed</span></td><td>boolean</td><td></td><td>Analyzed suggestions can be enabled by setting suggestAnalyzed property to true</td></tr>
+
+      <tr data-tt-id='3' data-tt-parent-id='1'><td><span class='folder'>indexName</span></td><td>oak:QueryIndexDefinition</td><td></td><td>Synchronous property index</td></tr>
+      <tr data-tt-id='3-1' data-tt-parent-id='3'><td><span class='file'>type</span></td><td>String</td><td></td><td>set to property. Is useful whenever there is a query with a property constraint that is not full-text. </td></tr>
+      <tr data-tt-id='3-2' data-tt-parent-id='3'><td><span class='file'>propertyNames</span></td><td>Name[]</td><td></td><td> index one property per index. (If multiple properties are indexed within one index, then the index contains all nodes that has either one of the properties, which can make the query less efficient, and can make the query pick the wrong index.)</td></tr>
+      <tr data-tt-id='3-3' data-tt-parent-id='3'><td><span class='file'>unique</span></td><td>boolean</td><td></td><td>a uniqueness constraint on this property is added. Ensure you set declaringNodeTypes, otherwise all nodes of the repository are affected (which is most likely not what you want), and you are not able to version the node. </td></tr>
+      <tr data-tt-id='3-4' data-tt-parent-id='3'><td><span class='file'>declaringNodeTypes</span></td><td>Name[]</td><td></td><td> the index only applies to a specified node type</td></tr>
+      <tr data-tt-id='3-5' data-tt-parent-id='3'><td><span class='file'>reindex</span></td><td>boolean</td><td></td><td> </td></tr>
+      <tr data-tt-id='3-6' data-tt-parent-id='3'><td><span class='file'>includedPaths</span></td><td>String[]</td><td>/</td><td> The index is only used if the query has a path restriction that is not excluded, and part of the included paths. </td></tr>
+      <tr data-tt-id='3-7' data-tt-parent-id='3'><td><span class='file'>excludedPaths</span></td><td>String[]</td><td>none</td><td> The index is only used if the query has a path restriction that is not excluded, and part of the included paths.</td></tr>
+      <tr data-tt-id='3-8' data-tt-parent-id='3'><td><span class='file'>entryCount</span></td><td>Long</td><td></td><td>the estimated number of path entries in the index, to override the cost estimation (a high entry count means a high cost). </td></tr>
+      <tr data-tt-id='3-9' data-tt-parent-id='3'><td><span class='file'>keyCount</span></td><td>Long</td><td></td><td>the estimated number of keys in the index, to override the cost estimation (a high key count means a lower cost and a low key count means a high cost when searching for specific keys; has no effect when searching for “is not null”). </td></tr>
+      <tr data-tt-id='3-10' data-tt-parent-id='3'><td><span class='file'>reindex-async</span></td><td>boolean</td><td></td><td>pushing the property index updates to a background job and when the indexing process is done, the property definition will be switched back to a synchronous updates mode. need to start the dedicated background job via a jmx call to the PropertyIndexAsyncReindex#startPropertyIndexAsyncReindex MBean.  future </td></tr>
+
+      <tr data-tt-id='4' data-tt-parent-id='1'><td><span class='folder'>indexName</span></td><td>oak:QueryIndexDefinition</td><td></td><td>This is deprecated. The Ordered index is an extension of the Property index. It keeps the order of the indexed property persistent in the repository.</td></tr>
+      <tr data-tt-id='4-1' data-tt-parent-id='4'><td><span class='file'>type</span></td><td>String</td><td></td><td>set to ordered. Is useful speed up queries with "ORDER BY", equality and range clauses. </td></tr>
+      <tr data-tt-id='4-2' data-tt-parent-id='4'><td><span class='file'>propertyNames</span></td><td>Name</td><td></td><td>  It has to be a simple value list of type Name.</td></tr>
+      <tr data-tt-id='4-3' data-tt-parent-id='4'><td><span class='file'>async</span></td><td>String</td><td></td><td>The index can be defind as asynchronous by setting the async property to async. </td></tr>
+      <tr data-tt-id='4-4' data-tt-parent-id='4'><td><span class='file'>direction</span></td><td>String</td><td>ascending</td><td>The direction of the sorting can be configured, by adding the direction property. It can have a value of ascending or descending. </td></tr>
+      <tr data-tt-id='4-5' data-tt-parent-id='4'><td><span class='file'>reindex</span></td><td>boolean</td><td></td><td> The reindex flag which if set to true, will trigger a full content re-index.</td></tr>
+
+      <tr data-tt-id='5' data-tt-parent-id='1'><td><span class='folder'>indexName</span></td><td>oak:QueryIndexDefinition</td><td></td><td>The purpose of the Solr index is mainly full-text search but it can also be used to index search by path, property restrictions and primary type restrictions. This means the Solr index in Oak can be used for any type of JCR query.</td></tr>
+      <tr data-tt-id='5-1' data-tt-parent-id='5'><td><span class='file'>type</span></td><td>String</td><td></td><td>set to solr.  </td></tr>
+      <tr data-tt-id='5-2' data-tt-parent-id='5'><td><span class='file'>async</span></td><td>String</td><td></td><td>set to async </td></tr>
+      <tr data-tt-id='5-3' data-tt-parent-id='5'><td><span class='file'>reindex</span></td><td>boolean</td><td></td><td> The reindex flag which if set to true, will trigger a full content re-index.</td></tr>
+
+      </tbody>
+      </table>
+
+				
+
+				</div>
+			</div>
+
+            <div class="row">
+                <div class="col-lg-12">
+
+<!--- Integration Starts--->
+
+
+
+
+<!--- Integration Ends--->
+
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+
+
+<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'aemstuff'; // required: replace example with your forum shortname
+		var disqus_identifier = 'aemindexcheatsheat';
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="footer-above">
+            <div class="container">
+                <div class="row">
+                    <div class="footer-col col-md-4">
+                    </div>
+                    <div class="footer-col col-md-4">
+                        <h3>Around the Web</h3>
+                        <ul class="list-inline">
+                            <li>
+                                <a href="https://twitter.com/intent/follow?original_referer=http%3A%2F%2Fwww.aemstuff.com%2F&region=follow_link&screen_name=adobe_sham&tw_p=followbutton&variant=2.0" class="btn-social btn-outline"><i class="fa fa-fw fa-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a href="http://www.linkedin.com/pub/sham-sundar-hassan-chikkegowda/17/3a5/6b0" class="btn-social btn-outline"><i class="fa fa-fw fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-col col-md-4">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-below">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <a href="../../disclaimer.html">Disclaimer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+    <div class="scroll-top page-scroll visible-xs visble-sm">
+        <a class="btn btn-primary" href="#page-top">
+            <i class="fa fa-chevron-up"></i>
+        </a>
+    </div>
+
+    <!-- Portfolio Modals -->
+    <div id="articleModals">
+
+    </div>
+
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../../js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="../../js/classie.js"></script>
+    <script src="../../js/cbpAnimatedHeader.js"></script>
+
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
+
+<script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/plug-ins/be7019ee387/integration/jqueryui/dataTables.jqueryui.js"></script>
+
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../../js/aemstuff_1.js"></script>
+
+
+
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-treetable/3.2.0/css/jquery.treetable.min.css" rel="stylesheet" type="text/css" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-treetable/3.2.0/css/jquery.treetable.theme.default.min.css" rel="stylesheet" type="text/css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-treetable/3.2.0/jquery.treetable.min.js"></script>
+	<script>
+		$("#example-advanced").treetable({ expandable: true,initialState:"expanded" });
+
+
+
+$(document).ready(function() {
+    var table = $('#example-advanced').DataTable({
+        "paging":   false,
+        "ordering": false
+    } );
+
+
+} );
+
+
+
+
+	</script>
+
+</body>
+
+</html>
