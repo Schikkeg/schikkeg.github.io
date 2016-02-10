@@ -127,8 +127,8 @@
 <li>For upto date information and more details refer
 	<ul>
       <li>Oak Documentation<a href="https://jackrabbit.apache.org/oak/docs/query/query.html" target="_new"> https://jackrabbit.apache.org/oak/docs/query/query.html</a></li>
-      <li>Oak Queries and Indexing <a href="https://docs.adobe.com/docs/en/aem/6-0/deploy/upgrade/queries-and-indexing.html" target="_new"> https://docs.adobe.com/docs/en/aem/6-0/deploy/upgrade/queries-and-indexing.html</a> </li>
-      <li>Best Practices for Queries and Indexing <a href="https://docs.adobe.com/docs/en/aem/6-0/deploy/best-practices/best-practices-for-queries-and-indexing.html" target="_new"> https://docs.adobe.com/docs/en/aem/6-0/deploy/best-practices/best-practices-for-queries-and-indexing.html</a></li>
+      <li>Oak Queries and Indexing <a href="https://docs.adobe.com/docs/en/aem/6-1/deploy/platform/queries-and-indexing.html" target="_new"> https://docs.adobe.com/docs/en/aem/6-1/deploy/platform/queries-and-indexing.html</a> </li>
+      <li>Best Practices for Queries and Indexing <a href="https://docs.adobe.com/docs/en/aem/6-1/deploy/best-practices/best-practices-for-queries-and-indexing.html" target="_new"> https://docs.adobe.com/docs/en/aem/6-1/deploy/best-practices/best-practices-for-queries-and-indexing.html</a></li>
     </ul>
 </li>
 <li>Get Latest Oak Hotfix
@@ -194,7 +194,7 @@
       <tr data-tt-id='2-17-1-3' data-tt-parent-id='2-17-1'><td><span class='file'>includePropertyTypes</span></td><td>String []</td><td></td><td>    Applicable when index is enabled for fulltext indexingFor full text index defaults to include all typesString array of property types which should be indexed.</td></tr>
       <tr data-tt-id='2-17-1-4' data-tt-parent-id='2-17-1'><td><span class='file'>costPerExecution</span></td><td>Double</td><td></td><td> For each query, the overhead is one operation. For each entry in the index, the cost is one. </td></tr>
       <tr data-tt-id='2-17-1-5' data-tt-parent-id='2-17-1'><td><span class='file'>costPerEntry</span></td><td>Double</td><td></td><td> For each query, the overhead is one operation. For each entry in the index, the cost is one. </td></tr>
-      <tr data-tt-id='2-17-1-6' data-tt-parent-id='2-17-1'><td><span class='folder'>properties</span></td><td>nt:unstructured</td><td></td><td>Each index rule consist of one ore more property definition defined under properties.</td></tr>            
+      <tr data-tt-id='2-17-1-6' data-tt-parent-id='2-17-1'><td><span class='folder'>properties</span></td><td>nt:unstructured</td><td></td><td>Each index rule consist of one ore more property definition defined under properties.</td></tr>
       <tr data-tt-id='2-17-1-6-1' data-tt-parent-id='2-17-1-6'><td><span class='folder'>propertyName</span></td><td>nt:unstructured</td><td></td><td>Can be any name generally provide property name.</td></tr>
       <tr data-tt-id='2-17-1-6-1-1' data-tt-parent-id='2-17-1-6-1'><td><span class='file'>name</span></td><td>String</td><td></td><td>Property name. If not defined then property name is set to the node name. If isRegexp is true then it defines the regular expression only to immediate property. Can also be set to a relative property.</td></tr>
       <tr data-tt-id='2-17-1-6-1-2' data-tt-parent-id='2-17-1-6-1'><td><span class='file'>propertyIndex</span></td><td>boolean</td><td></td><td>    Whether the index for this property is used for equality conditions, ordering, and is not null conditions.</td></tr>
@@ -241,7 +241,7 @@
       <tr data-tt-id='2-19-2' data-tt-parent-id='2-19'><td><span class='folder'>pathText</span></td><td>nt:unstructured</td><td></td><td></td></tr>
       <tr data-tt-id='2-20' data-tt-parent-id='2'><td><span class='folder'>tika</span></td><td>nt:unstructured</td><td></td><td> </td></tr>
       <tr data-tt-id='2-20-1' data-tt-parent-id='2-20'><td><span class='file'>maxExtractLength</span></td><td>long</td><td></td><td></td></tr>
-      <tr data-tt-id='2-20-2' data-tt-parent-id='2-20'><td><span class='folder'>config.xml</span></td><td>nt:file</td><td></td><td>https://github.com/apache/jackrabbit-oak/blob/trunk/oak-lucene/src/main/resources/org/apache/jackrabbit/oak/plugins/index/lucene/tika-config.xml</td></tr> 
+      <tr data-tt-id='2-20-2' data-tt-parent-id='2-20'><td><span class='folder'>config.xml</span></td><td>nt:file</td><td></td><td>https://github.com/apache/jackrabbit-oak/blob/trunk/oak-lucene/src/main/resources/org/apache/jackrabbit/oak/plugins/index/lucene/tika-config.xml</td></tr>
       <tr data-tt-id='2-21' data-tt-parent-id='2'><td><span class='folder'>suggestion</span></td><td>nt:unstructured</td><td></td><td> </td></tr>
       <tr data-tt-id='2-21-1' data-tt-parent-id='2-21'><td><span class='file'>suggestUpdateFrequencyMinutes</span></td><td>long</td><td></td><td></td></tr>
       <tr data-tt-id='2-21-2' data-tt-parent-id='2-21'><td><span class='file'>suggestAnalyzed</span></td><td>boolean</td><td></td><td>Analyzed suggestions can be enabled by setting suggestAnalyzed property to true</td></tr>
@@ -273,7 +273,7 @@
       </tbody>
       </table>
 
-				
+
 
 				</div>
 			</div>
