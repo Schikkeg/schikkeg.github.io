@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="AEM Stuff">
+    <meta name="description" content="AEM OSGi Config Diff Utility">
     <meta name="author" content="Sham HC">
     <link rel="icon" href="../images/favicon.ico">
 
-	 <title>AEM SAML</title>
+	 <title>Osgi config comparison tool info</title>
 
     <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
@@ -62,7 +62,7 @@
                         <a href="../../index.html">Home</a>
                     </li>
                     <li >
-                        <a href="../../blogs.html">Blogs</a>
+                        <a href="../blogs.html">Blogs</a>
                     </li>
             <li class="dropdown">
               <a href="../../osgi.html" class="dropdown-toggle" data-toggle="dropdown">OSGi <span class="caret"></span></a>
@@ -75,7 +75,8 @@
 					<li><a href="../../osgi/aem56.html">AEM 5.6</a></li>
 					<li><a href="../../osgi/aem55.html">AEM 5.5</a></li>
 					<li><a href="../../osgi/aem61jmx.html">AEM 6.1 jmx list</a></li>
-					<li><a href="../../osgi/aem62jmx.html">AEM 6.2 jmx list</a></li>              </ul>
+					<li><a href="../../osgi/aem62jmx.html">AEM 6.2 jmx list</a></li>
+              </ul>
             </li>
 
             <li class="dropdown">
@@ -102,9 +103,9 @@
                 <div class="col-lg-12">
                     <!--img class="img-responsive" src="img/profile.png" alt=""-->
                     <div class="intro-text">
-                        <span class="name">SAML with AEM 6.1 </span>
+                        <span class="name">Osgi config comparison tool </span>
                         <hr class="star-light">
-                        <span class="skills">Concentrates only on configuration changes of SAML 2.0 with AEM6.1.
+                        <span class="skills"> Tool or technique to get a osgi config diff of two different aem installations.
                         </span>
                     </div>
                 </div>
@@ -120,54 +121,47 @@
 
 						<h3>Summary</h3><hr>
 
-				          <p class="lead">With AEM6.1 there are some changes in configuration of SAML Authentication handler compared to earlier version of AEM. This section concentrates only on configuration changes of SAML 2.0 with AEM6.1</p>
+				          <p class="lead">
 
-						<h3>Steps</h3><hr>
-						 <div class="row">
-<ol style="list-style: decimal inside;">
-<li>Add IdP public cert to AEM truststore
-	<ul>
-      <li>Go to: <a href="http://localhost:4502/libs/granite/security/content/useradmin.html" target="_new"> http://localhost:4502/libs/granite/security/content/useradmin.html</a></li>
-      <li>Select any user because TrustStore is global to AEM</li>
-      <li>Create trust store by supplying the password & then manage trust store</li>
-      <li>Upload the IdP certificate & make note of the certificate Alias</li>
-    </ul>
-</li>
-<li>Add SP key and certificate chain to AEM keystore (authentication-service)
-	<ul>
-      <li>Go to: <a href="http://localhost:4502/libs/granite/security/content/useradmin.html" target="_new"> http://localhost:4502/libs/granite/security/content/useradmin.html</a></li>
-      <li>Select authentication-service</li>
-      <li>Create KeyStore by supplying the password</li>
-      <li>If encrypting SAML assertions then go to manage KeyStore for uploading the private & public key</li>
-    </ul>
+				          The Contextual Configuration Diff Utility feature provides the ability to perform a osgi config comparison between aem instances (accessible through http://host:port/system/console/status-Configurations.txt) and generate a list of the differences between them. The generated output includes information about the following items:
+<ul>
+      <li>
+    Configuration changes with color coded that have been similar, added, modified, or deleted.</li>
+      <li>
+	Smart logic to pick config field to compare the factory configs which has dynamic id in each instances. </li>
+      <li>
+	Can override the Factory Mapping key used to compare Or define own key to consider for comparing factory config lists.</li>
+      <li>
+	Easy Filtering & Search Capability</li>
+	<li>
+	Client side implementation, Hence config is not transported over network.</li>
+      </ul>
 
-</li>
-<li>Configure the SAML authentication handler in the web console
+				          </p>
+
+						<h3>Use Case</h3><hr>
+						 <div class="row"> Helps for various scenario & to name a few
+
 	<ul>
-      <li>Go to: <a href="http://localhost:4502/system/console/configMgr" target="_new"> http://localhost:4502/system/console/configMgr</a></li>
-      <li>Search for Adobe Granite SAML 2.0 Authentication Handler</li>
-      <li>Add a new handler configuration and alias here should match with step1.</li>
-    </ul>
-</li>
-<li>Configure Referrer Filter </li>
-	<ul>
-      <li>Configure host at: <a href="http://localhost:4502/system/console/configMgr/org.apache.sling.security.impl.ReferrerFilter" target="_new"> http://localhost:4502/system/console/configMgr/org.apache.sling.security.impl.ReferrerFilter</a></li>
+      <li>To validate the config changes at time of deployment of releases </li>
+      <li>To Find the  difference & an missing configuration that was not included in deployments.  </li>
+      <li>To Find the difference in behaviors between aem instance.  </li>
+      <li>For quick enabling of changes in various aem releases as well with service packs and hotfix. </li>
     </ul>
 
-
-</ol>
 				          </div>
-						<h3>Earlier Version</h3><hr>
+						<h3>Steps</h3><hr>
 						<p>
-							<a href="https://helpx.adobe.com/experience-manager/kb/saml-demo.html" target="_new">https://helpx.adobe.com/experience-manager/kb/saml-demo.html</a>
-							<BR/><a href="https://helpx.adobe.com/experience-manager/kb/simple-saml-demo.html" target="_new">https://helpx.adobe.com/experience-manager/kb/simple-saml-demo.html</a>
-
+	<ul>
+      <li>Copy the status-Configurations from aem instancee at http://host:port/system/console/status-Configurations.txt</li>
+      <li>Find the difference <a href="../../tools/osgiconfigdiff.html"> using the tool</a>  </li>
+    </ul>
 						</p>
 						<h3>Video</h3><hr>
 						<p>
 <!-- 16:9 aspect ratio -->
 <div class="embed-responsive embed-responsive-16by9">
-<iframe class="embed-responsive-item"  width="420" height="315" src="https://www.youtube.com/embed/bfE16kc3JJY" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1_o8RrK5DRI" frameborder="0" allowfullscreen></iframe>
 </div>
 					</p>
 					</article>
@@ -207,7 +201,7 @@
     <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
         var disqus_shortname = 'aemstuff'; // required: replace example with your forum shortname
-		var disqus_identifier = 'samlaem61';
+		var disqus_identifier = 'osgiconfigdifftool';
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
         (function() {
