@@ -120,11 +120,12 @@ th {
 
 <script type="text/javascript">
 
- var listBoxA,cr;
+ var listBoxA,cr,extoken;
 
 function init(){
 	listBoxA = document.getElementById("expectedList");
 	cr=document.getElementById("countResult");
+	extoken=document.getElementById("excludeToken");
 }
 
     function startgenerate(){
@@ -149,7 +150,11 @@ function init(){
 				continue;
 			}
     		//code here using lines[i] which will give you each line
-    		filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[]},";
+    		if(extoken.checked){
+    			filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\""+lines[i]+"/.tokens\"}]},";    			
+    		}else{
+				filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[]},";
+			}
 		}
 		filterConsolidate = filterConsolidate.substring(0,filterConsolidate.length-1);
 		filterConsolidate = filterConsolidate + "]' -F '_charset_=UTF-8'  "+hostname+"crx/packmgr/update.jsp";
@@ -257,7 +262,8 @@ function init(){
 Package Name <input type="text" id="packageName">
 Version <input type="text" id="version">
 Group <input type="text" id="group" value="my_packages">
-Host <input type="text" id="hostname" value="http://localhost:4502/">
+Host <input type="text" id="hostname" value="http://localhost:4502/"><br/>
+Exclude User token <input type="checkbox" id="excludeToken" ><br/>
 <textarea id="expectedList">
 </textarea>
 
