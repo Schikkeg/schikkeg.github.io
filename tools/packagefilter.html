@@ -120,12 +120,13 @@ th {
 
 <script type="text/javascript">
 
- var listBoxA,cr,extoken;
+ var listBoxA,cr,extoken,exsubasset;
 
 function init(){
 	listBoxA = document.getElementById("expectedList");
 	cr=document.getElementById("countResult");
 	extoken=document.getElementById("excludeToken");
+	exsubasset=document.getElementById("excludesubasset");
 }
 
     function startgenerate(){
@@ -152,6 +153,8 @@ function init(){
     		//code here using lines[i] which will give you each line
     		if(extoken.checked){
     			filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\""+lines[i]+"/.tokens\"}]},";    			
+    		}else if(exsubasset.checked){
+    			filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\".*/subassets/.*\"}]},";    			
     		}else{
 				filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[]},";
 			}
@@ -264,6 +267,7 @@ Version <input type="text" id="version">
 Group <input type="text" id="group" value="my_packages">
 Host <input type="text" id="hostname" value="http://localhost:4502/"><br/>
 Exclude User token <input type="checkbox" id="excludeToken" ><br/>
+Exclude sub Assets <input type="checkbox" id="excludesubasset" ><br/>
 <textarea id="expectedList">
 </textarea>
 
