@@ -521,7 +521,7 @@ function renderStandardConfigTable(){
 					}else{
 						status = "Added";
 					}
-					if(actualObj[propName]){
+					if(actualObj && actualObj[propName]){
 						actPropValue = actualObj[propName];
 					}else{
 						status = "Deleted";
