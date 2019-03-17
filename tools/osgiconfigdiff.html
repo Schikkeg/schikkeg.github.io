@@ -513,7 +513,7 @@ function renderStandardConfigTable(){
 				}
 				for (var i=0; i < keyList.length; i++){
 					var propName = keyList[i];
-					if(propName== "PID"){
+					if(propName== "PID" ){
 						continue;
 					}
 					if(expectObj[propName]){
@@ -521,7 +521,13 @@ function renderStandardConfigTable(){
 					}else{
 						status = "Added";
 					}
-					if(actualObj && actualObj[propName]){
+					
+					if(!actualObj){
+						insertRow(propName,pid,expPropValue,"","Deleted");
+						continue;
+					}
+					
+					if( actualObj[propName]){
 						actPropValue = actualObj[propName];
 					}else{
 						status = "Deleted";
