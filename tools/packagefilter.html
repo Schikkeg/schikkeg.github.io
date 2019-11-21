@@ -120,7 +120,7 @@ th {
 
 <script type="text/javascript">
 
- var listBoxA,cr,extoken,exsubasset,exrendition;
+ var listBoxA,cr,extoken,exsubasset,exrendition,excludesubpage,inccrebui,nlines;
 
 function init(){
 	listBoxA = document.getElementById("expectedList");
@@ -128,6 +128,10 @@ function init(){
 	extoken=document.getElementById("excludeToken");
 	exsubasset=document.getElementById("excludesubasset");
 	exrendition=document.getElementById("excluderendition");
+	excludesubpage=document.getElementById("excludesubpage");
+	inccrebui=document.getElementById("inccrebui");
+	nlines=document.getElementById("nlines");
+	
 }
 
     function startgenerate(){
@@ -137,6 +141,11 @@ function init(){
     	var version=document.getElementById("version").value ;
     	var group=document.getElementById("group").value ;
     	var hostname=document.getElementById("hostname").value ;
+    	var sby = nlines.value;
+    	
+    	if(inccrebui.checked){
+    		cr.innerHTML = "curl -u admin -X POST  -F 'packageName="+pack+"' -F 'groupName="+group+"' -F 'packageVersion="+version+"'  -F '_charset_=UTF-8' "+hostname+"crx/packmgr/service/exec.json?cmd=create";
+    	}
     	
 		var packPath = "/etc/packages/"+group+"/"+pack;
 		if(version!=""){
@@ -144,33 +153,69 @@ function init(){
 		}else{
 			packPath = packPath + ".zip" ;
 		}
-    	
-    	var filterConsolidate = "curl -u admin -X POST -F 'path="+packPath+"' -F 'packageName="+pack+"' -F 'groupName="+group+"' -F 'version="+version+"' -F 'filter=[";
+		
     	var lines = listBoxA.value.split('\n');
-		for(var i = 0;i < lines.length;i++){
-			if(lines[i].trim()===""){
-				continue;
-			}
-    		//code here using lines[i] which will give you each line
-    		if(extoken.checked){
-    			filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\""+lines[i]+"/.tokens\"}]},";    			
-    		}else if(exsubasset.checked && exrendition.checked){
-    			filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\".*/subassets/.*\"},{\"modifier\":\"exclude\",\"pattern\":\".*/renditions/.*\"}]},"; 
+    	var minloop = 1;
+    	var first=0;
+    	var last=0;
+    	var numpack = 0;
+    	var newPack = pack;
+    	if(sby != ""){
+	    	minloop = Math.ceil( ( (lines.length)/sby) );
+	    }
+    	for (var fl = minloop - 1; fl >= 0; fl--){
+    		++numpack;
+    		if(first!=last){
+    			//newVer = (version + +numpack);
+    			pack = newPack + numpack;
+				packPath = "/etc/packages/"+group+"/"+pack;
+				if(version!=""){
+					packPath = packPath + "-" + version +".zip";
+				}else{
+					packPath = packPath + ".zip" ;
+				}
+    			if(inccrebui.checked){
+    				cr.innerHTML = cr.innerHTML + "<BR/>"+"curl -u admin -X POST  -F 'packageName="+pack+"' -F 'groupName="+group+"' -F 'packageVersion="+version+"'  -F '_charset_=UTF-8' "+hostname+"crx/packmgr/service/exec.json?cmd=create";
+    			}
     		}
-    		else if(exsubasset.checked){
-    			filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\".*/subassets/.*\"}]},";    		
-    		}else if(exrendition.checked){
-    			filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\".*/renditions/.*\"}]},";    		
+    		if(minloop==1){
+    			first=0;
+    			last=lines.length;
+    		}else{
+    			first=last;
+    			last = +last + +sby;
+    			if(last>lines.length){
+    				last = lines.length;
+    			}
     		}
-    		else{
-				filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[]},";
+    	
+	    	var filterConsolidate = "curl -u admin -X POST -F 'path="+packPath+"' -F 'packageName="+pack+"' -F 'groupName="+group+"' -F 'version="+version+"' -F 'filter=[";
+			for(var i = first;i < last;i++){
+				if(lines[i].trim()===""){
+					continue;
+				}
+	    		//code here using lines[i] which will give you each line
+    			if(extoken.checked){
+    				filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\""+lines[i]+"/.tokens\"}]},";    			
+    			}else if(exsubasset.checked && exrendition.checked){
+    				filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\".*/subassets/.*\"},{\"modifier\":\"exclude\",\"pattern\":\".*/renditions/.*\"}]},"; 
+	    		}
+    			else if(exsubasset.checked){
+    				filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\".*/subassets/.*\"}]},";    		
+    			}else if(exrendition.checked){
+    				filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\".*/renditions/.*\"}]},";    		
+	    		}else if(excludesubpage.checked){
+    				filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\".*\"},{\"modifier\":\"include\",\"pattern\":\".*/jcr:content.*\"}]},";    		
+    			}
+    			else{
+					filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[]},";
+				}
 			}
-		}
-		filterConsolidate = filterConsolidate.substring(0,filterConsolidate.length-1);
-		filterConsolidate = filterConsolidate + "]' -F '_charset_=UTF-8'  "+hostname+"crx/packmgr/update.jsp";
-		cr.innerHTML = filterConsolidate;
-    }
-
+			filterConsolidate = filterConsolidate.substring(0,filterConsolidate.length-1);
+			filterConsolidate = filterConsolidate + "]' -F '_charset_=UTF-8'  "+hostname+"crx/packmgr/update.jsp";
+			cr.innerHTML = cr.innerHTML + "<BR/>"+filterConsolidate;
+    	}
+	}
 
 </script>
 
@@ -262,7 +307,9 @@ function init(){
 <!--- Integration Starts--->
 
 <ul>
-<li>Under Construction, Please try later</li>
+<li>/jcr:root/content/geometrixx//element(*, cq:Page)[(((@jcr:created >= xs:dateTime('2019-03-01T00:00:00.000+01:00')))or ((jcr:content/@jcr:lastModified >= xs:dateTime('2019-03-01T00:00:00.000+01:00'))))]</li>
+<li>/jcr:root/content/dam//element(*, dam:Asset)[(((@jcr:created >= xs:dateTime('2019-03-01T00:00:00.000+01:00')))or ((jcr:content/@jcr:lastModified >= xs:dateTime('2019-03-01T00:00:00.000+01:00'))))]</li>
+<li>cat list.txt | sed '/subassets/d' > list_nosub.txt</li>
 </ul>
 
 
@@ -273,9 +320,12 @@ Package Name <input type="text" id="packageName">
 Version <input type="text" id="version">
 Group <input type="text" id="group" value="my_packages">
 Host <input type="text" id="hostname" value="http://localhost:4502/"><br/>
-Exclude User token <input type="checkbox" id="excludeToken" ><br/>
-Exclude sub Assets <input type="checkbox" id="excludesubasset" ><br/>
-Exclude Renditions <input type="checkbox" id="excluderendition" ><br/>
+<input type="checkbox" id="excludeToken" >&nbsp;Exclude User token &nbsp;|
+<input type="checkbox" id="excludesubasset" >&nbsp;Exclude sub Assets &nbsp;&nbsp;|
+<input type="checkbox" id="excluderendition" >&nbsp;Exclude Renditions &nbsp;&nbsp;|
+<input type="checkbox" id="excludesubpage" >&nbsp;Only page without subpage &nbsp;&nbsp;|<br/>
+<input type="checkbox" id="inccrebui" >&nbsp;Include create build commands &nbsp;&nbsp;|
+Split By  <input type="text" id="nlines" >&nbsp;&nbsp;|<br/>
 <textarea id="expectedList">
 </textarea>
 
