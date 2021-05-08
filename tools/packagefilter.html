@@ -120,7 +120,7 @@ th {
 
 <script type="text/javascript">
 
- var listBoxA,cr,extoken,exsubasset,exrendition,excludesubpage,inccrebui,nlines;
+ var listBoxA,cr,extoken,exsubasset,exrendition,excludesubpage,inccrebui,nlines,incupdncd,incbuicd;
 
 function init(){
 	listBoxA = document.getElementById("expectedList");
@@ -131,6 +131,8 @@ function init(){
 	excludesubpage=document.getElementById("excludesubpage");
 	inccrebui=document.getElementById("inccrebui");
 	nlines=document.getElementById("nlines");
+	incupdncd=document.getElementById("incupdncd");
+	incbuicd=document.getElementById("incbuicd");
 	
 }
 
@@ -141,6 +143,7 @@ function init(){
     	var version=document.getElementById("version").value ;
     	var group=document.getElementById("group").value ;
     	var hostname=document.getElementById("hostname").value ;
+    	var targethostname=document.getElementById("targethostname").value ;
     	var sby = nlines.value;
     	
     	if(inccrebui.checked){
@@ -214,6 +217,20 @@ function init(){
 			filterConsolidate = filterConsolidate.substring(0,filterConsolidate.length-1);
 			filterConsolidate = filterConsolidate + "]' -F '_charset_=UTF-8'  "+hostname+"crx/packmgr/update.jsp";
 			cr.innerHTML = cr.innerHTML + "<BR/>"+filterConsolidate;
+			
+			//curl -u admin -F package=@assetmove5-v1.zip http://int.paloaltonetworks.com:4512/crx/packmgr/service/.json/?cmd=upload
+			//curl -u admin http://localhost:4502/etc/packages/my_packages/assetmove5-v1.zip > assetmove5-v1.zip
+
+			if(incbuicd.checked){
+    				cr.innerHTML = cr.innerHTML + "<BR/>"+"curl -u admin -X POST "+hostname+"crx/packmgr/service/.json"+packPath+"?cmd=build";
+    		}
+
+			if(incupdncd.checked){
+					var ppp = packPath.substring(1);
+					var ppn = packPath.substring(packPath.lastIndexOf("/")+1);
+    				cr.innerHTML = cr.innerHTML + "<BR/>"+"curl -u admin "+hostname+ppp+" > "+ppn;
+    				cr.innerHTML = cr.innerHTML + "<BR/>"+"curl -u admin -F package=@"+ppn+" "+targethostname+"crx/packmgr/service/.json/?cmd=upload";
+    		}
     	}
 	}
 
@@ -320,11 +337,14 @@ Package Name <input type="text" id="packageName">
 Version <input type="text" id="version">
 Group <input type="text" id="group" value="my_packages">
 Host <input type="text" id="hostname" value="http://localhost:4502/"><br/>
+Target <input type="text" id="targethostname" value="http://target:4502/"><br/>
 <input type="checkbox" id="excludeToken" >&nbsp;Exclude User token &nbsp;|
 <input type="checkbox" id="excludesubasset" >&nbsp;Exclude sub Assets &nbsp;&nbsp;|
 <input type="checkbox" id="excluderendition" >&nbsp;Exclude Renditions &nbsp;&nbsp;|
 <input type="checkbox" id="excludesubpage" >&nbsp;Only page without subpage &nbsp;&nbsp;|<br/>
 <input type="checkbox" id="inccrebui" >&nbsp;Include create build commands &nbsp;&nbsp;|
+<input type="checkbox" id="incbuicd" >&nbsp;Include build commands &nbsp;&nbsp;|
+<input type="checkbox" id="incupdncd" >&nbsp;Include upload/download commands &nbsp;&nbsp;|
 Split By  <input type="text" id="nlines" >&nbsp;&nbsp;|<br/>
 <textarea id="expectedList">
 </textarea>
