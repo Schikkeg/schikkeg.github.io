@@ -6,25 +6,24 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Package Filter Generator">
+    <meta name="description" content="AEM Stuff">
     <meta name="author" content="Sham HC">
     <link rel="icon" href="../images/favicon.ico">
 
-	 <title>Package Filter</title>
+	 <title>CLS Helper</title>
 
     <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-	<!--link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"-->
-	<link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/plug-ins/be7019ee387/integration/jqueryui/dataTables.jqueryui.css">
 
     <!-- Custom CSS -->
     <link href="../css/aemstuff_1.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="../css/aemstuff.css">
+    <link href="../css/aemstuff.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="../font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/plug-ins/be7019ee387/integration/jqueryui/dataTables.jqueryui.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -37,11 +36,6 @@
     <script src="../js/jquery.min.js"></script>
 
 <style>
-
-div.dataTables_wrapper {
-        width: 1200px;
-        margin: 0 auto;
-    }
   .changed{
   		border-right: 1px solid #C1DAD7;
 		border-bottom: 1px solid #C1DAD7;
@@ -119,121 +113,96 @@ th {
 
 
 <script type="text/javascript">
+	var inputCls,table,xaxis,yaxis;
 
- var listBoxA,cr,extoken,exsubasset,exrendition,excludesubpage,inccrebui,nlines,incupdncd,incbuicd;
-
-function init(){
-	listBoxA = document.getElementById("expectedList");
-	cr=document.getElementById("countResult");
-	extoken=document.getElementById("excludeToken");
-	exsubasset=document.getElementById("excludesubasset");
-	exrendition=document.getElementById("excluderendition");
-	excludesubpage=document.getElementById("excludesubpage");
-	inccrebui=document.getElementById("inccrebui");
-	nlines=document.getElementById("nlines");
-	incupdncd=document.getElementById("incupdncd");
-	incbuicd=document.getElementById("incbuicd");
+	function init(){
+		inputCls = document.getElementById("actualReport");
+		xaxis = document.getElementById("width");
+		yaxis = document.getElementById("height");
+		table=document.getElementById("results").getElementsByTagName('tbody')[0] ;
+	}
 	
-}
-
-    function startgenerate(){
-    	cr.innerHTML = "";
-    	
-    	var pack=document.getElementById("packageName").value ;
-    	var version=document.getElementById("version").value ;
-    	var group=document.getElementById("group").value ;
-    	var hostname=document.getElementById("hostname").value ;
-    	var targethostname=document.getElementById("targethostname").value ;
-    	var sby = nlines.value;
-    	
-    	if(inccrebui.checked){
-    		cr.innerHTML = "curl -u admin -X POST  -F 'packageName="+pack+"' -F 'groupName="+group+"' -F 'packageVersion="+version+"'  -F '_charset_=UTF-8' '"+hostname+"crx/packmgr/service/exec.json?cmd=create'";
-    	}
-    	
-		var packPath = "/etc/packages/"+group+"/"+pack;
-		if(version!=""){
-			packPath = packPath + "-" + version +".zip";
-		}else{
-			packPath = packPath + ".zip" ;
-		}
-		
-    	var lines = listBoxA.value.split('\n');
-    	var minloop = 1;
-    	var first=0;
-    	var last=0;
-    	var numpack = 0;
-    	var newPack = pack;
-    	if(sby != ""){
-	    	minloop = Math.ceil( ( (lines.length)/sby) );
-	    }
-    	for (var fl = minloop - 1; fl >= 0; fl--){
-    		++numpack;
-    		if(first!=last){
-    			//newVer = (version + +numpack);
-    			pack = newPack + numpack;
-				packPath = "/etc/packages/"+group+"/"+pack;
-				if(version!=""){
-					packPath = packPath + "-" + version +".zip";
-				}else{
-					packPath = packPath + ".zip" ;
-				}
-    			if(inccrebui.checked){
-    				cr.innerHTML = cr.innerHTML + "<BR/>"+"curl -u admin -X POST  -F 'packageName="+pack+"' -F 'groupName="+group+"' -F 'packageVersion="+version+"'  -F '_charset_=UTF-8' '"+hostname+"crx/packmgr/service/exec.json?cmd=create'";
-    			}
-    		}
-    		if(minloop==1){
-    			first=0;
-    			last=lines.length;
-    		}else{
-    			first=last;
-    			last = +last + +sby;
-    			if(last>lines.length){
-    				last = lines.length;
-    			}
-    		}
-    	
-	    	var filterConsolidate = "curl -u admin -X POST -F 'path="+packPath+"' -F 'packageName="+pack+"' -F 'groupName="+group+"' -F 'version="+version+"' -F 'filter=[";
-			for(var i = first;i < last;i++){
-				if(lines[i].trim()===""){
-					continue;
-				}
-	    		//code here using lines[i] which will give you each line
-    			if(extoken.checked){
-    				filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\""+lines[i]+"/.tokens\"}]},";    			
-    			}else if(exsubasset.checked && exrendition.checked){
-    				filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\".*/subassets/.*\"},{\"modifier\":\"exclude\",\"pattern\":\".*/renditions/.*\"}]},"; 
-	    		}
-    			else if(exsubasset.checked){
-    				filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\".*/subassets/.*\"}]},";    		
-    			}else if(exrendition.checked){
-    				filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\".*/renditions/.*\"}]},";    		
-	    		}else if(excludesubpage.checked){
-    				filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[{\"modifier\":\"exclude\",\"pattern\":\".*\"},{\"modifier\":\"include\",\"pattern\":\".*/jcr:content.*\"}]},";    		
-    			}
-    			else{
-					filterConsolidate = filterConsolidate + "{\"root\":\""+ lines[i] + "\",\"rules\":[]},";
-				}
-			}
-			filterConsolidate = filterConsolidate.substring(0,filterConsolidate.length-1);
-			filterConsolidate = filterConsolidate + "]' -F '_charset_=UTF-8'  '"+hostname+"crx/packmgr/update.jsp'";
-			cr.innerHTML = cr.innerHTML + "<BR/>"+filterConsolidate;
-			
-			//curl -u admin -F package=@assetmove5-v1.zip http://int.paloaltonetworks.com:4512/crx/packmgr/service/.json/?cmd=upload
-			//curl -u admin http://localhost:4502/etc/packages/my_packages/assetmove5-v1.zip > assetmove5-v1.zip
-
-			if(incbuicd.checked){
-    				cr.innerHTML = cr.innerHTML + "<BR/>"+"curl -u admin -X POST '"+hostname+"crx/packmgr/service/.json"+packPath+"?cmd=build'";
-    		}
-
-			if(incupdncd.checked){
-					var ppp = packPath.substring(1);
-					var ppn = packPath.substring(packPath.lastIndexOf("/")+1);
-    				cr.innerHTML = cr.innerHTML + "<BR/>"+"curl -u admin '"+hostname+ppp+"' > "+ppn;
-    				cr.innerHTML = cr.innerHTML + "<BR/>"+"curl -u admin -F package=@"+ppn+" '"+targethostname+"crx/packmgr/service/.json/?cmd=upload'";
-    		}
-    	}
+	function createCLSRow(name,cfx,cfy,ctx,cty,sfx,sfy,stx,sty,width,height) {
+  		const obj = {};
+  		obj.name = name;
+  		obj.contentx = Math.min(sfx, stx);
+  		obj.contenty = Math.max(sfy, sty);
+		obj.contentdistance = Math.max(Math.abs(cfx - ctx),Math.abs(cfy - cty));
+		obj.impactFraction = ((obj.contentx*obj.contenty)/(width*height)).toFixed(8);
+		obj.distanceFraction = (obj.contentdistance/( Math.max(width,height))).toFixed(8) ;
+		obj.clscore = Number((Number(obj.distanceFraction) * Number(obj.impactFraction)).toFixed(8));
+  		return obj;
 	}
 
+	function startExplain(){
+	//Moved fromLocation: [0,21], Size: [1371x18]
+	//Moved toLocation: [0,21], Size: [1371x18]
+		deleteRows('results',false) ;
+		var lines = inputCls.value.split('\n');
+		var cfx,cfy,ctx,cty,sfx,sfy,stx,sty;
+		var screenwidth = xaxis.value;
+		var screenheight = yaxis.value;
+		var counter =0;
+		var totalCLSScore =0;
+        for (var i = 0; i < lines.length; i++) {
+        	var line = lines[i] ;
+        	if(((i+1) % 2)===0){
+        		line = line.substring(19);
+        		ctx = line.substring(0,line.indexOf(","));
+        		cty = line.substring(line.indexOf(",")+1,line.indexOf("]"));
+        		line = line.substring(line.indexOf("], Size: [")+10);
+        		stx = line.substring(0,line.indexOf("x"));
+        		sty = line.substring(line.indexOf("x")+1,line.indexOf("]"));
+        		++counter;
+        		var trow = createCLSRow("Row"+counter,cfx,cfy,ctx,cty,sfx,sfy,stx,sty,screenwidth,screenheight);
+        		console.log(trow.name+"==>"+trow.contentx+"==>"+trow.contenty+"==>"+trow.contentdistance+"==>"+trow.impactFraction+"==>"+trow.distanceFraction+"==>"+trow.clscore);
+        		totalCLSScore = Number((totalCLSScore + trow.clscore).toFixed(8));
+        		//console.log("Row"+counter+"==>"+cfx+"==>"+cfy+"==>"+ctx+"==>"+cty+"==>"+sfx+"==>"+sfy+"==>"+stx+"==>"+sty);
+				var row=table.insertRow((counter-1));
+				row.insertCell(0).innerHTML = trow.contentx;
+				row.insertCell(1).innerHTML = trow.contenty;
+				row.insertCell(2).innerHTML = screenwidth;
+				row.insertCell(3).innerHTML = screenheight;
+				row.insertCell(4).innerHTML = trow.impactFraction;
+				row.insertCell(5).innerHTML = trow.contentdistance;
+				row.insertCell(6).innerHTML = trow.distanceFraction;
+				row.insertCell(7).innerHTML = trow.clscore;
+        	}else{
+        		line = line.substring(21);
+        		cfx = line.substring(0,line.indexOf(","));
+        		cfy = line.substring(line.indexOf(",")+1,line.indexOf("]"));
+        		line = line.substring(line.indexOf("], Size: [")+10);
+        		sfx = line.substring(0,line.indexOf("x"));
+        		sfy = line.substring(line.indexOf("x")+1,line.indexOf("]"));
+        	}
+        }
+    	document.getElementById("countResult").innerHTML = "totalCLSScore:"+totalCLSScore ;
+        console.log(trow.name+"==>"+totalCLSScore);
+	
+	}
+	
+	function deleteRows(id, toDeleteHeader) {
+		var obj = document.getElementById(id);
+		if(!obj && !obj.rows)
+			return;
+		if(typeof toDeleteHeader == 'undefined')
+			toDeleteHeader = false;
+		var limit = !!toDeleteHeader ? 0 : 1;
+		var rows = obj.rows;
+		if(limit > rows.length)
+			return;
+		for(; rows.length > limit; ) {
+			obj.deleteRow(limit);
+		}
+	}
+	
+	function clearBoxes() {
+    	inputCls.value = "";
+		xaxis.value = "";
+		yaxis.value = "";
+    	deleteRows('results',false) ;
+    	document.getElementById("countResult").innerHTML = "";
+    }
 </script>
 
 </head>
@@ -288,8 +257,8 @@ function init(){
 			  		<li><a href="coi.html">Out of the box Sanity Check</a></li>
 			  		<li><a href="cti.html">Out of the box Sanity Check between envirnoments</a></li>
 			  		<li><a href="dispatcheronlinetracker.html">Dispatcher online Release tracker</a></li>
-			  		<li><a href="packagelist.html">Package list organizer</a></li>
-			  		<li><a class="active" href="osgiconfigdiff.html">OSGi config Diff Utility</a></li>
+			  		<li><a class="active" href="packagelist.html">Package list organizer</a></li>
+			  		<li><a href="osgiconfigdiff.html">OSGi config Diff Utility</a></li>
               </ul>
             </li>
                 </ul>
@@ -305,11 +274,9 @@ function init(){
                 <div class="col-lg-12">
                     <!--img class="img-responsive" src="img/profile.png" alt=""-->
                     <div class="intro-text">
-                        <span class="name">Package Filter</span>
+                        <span class="name">CLS Helper</span>
                         <hr class="star-light">
-                        <span class="skills">
-                       Under construction.  This tool to generate the curl for package filters based on http://aemfaq.blogspot.com/2013/09/creating-package-with-filtersexclusion.html
-                        </span>
+                        <span class="skills">Parse the CLS from chrome performance report. </span>
                     </div>
                 </div>
             </div>
@@ -324,68 +291,79 @@ function init(){
 <!--- Integration Starts--->
 
 <ul>
-<li>/jcr:root/content/geometrixx//element(*, cq:Page)[(((@jcr:created >= xs:dateTime('2019-03-01T00:00:00.000+01:00')))or ((jcr:content/@jcr:lastModified >= xs:dateTime('2019-03-01T00:00:00.000+01:00'))))]</li>
-<li>/jcr:root/content/dam//element(*, dam:Asset)[(((@jcr:created >= xs:dateTime('2019-03-01T00:00:00.000+01:00')))or ((jcr:content/@jcr:lastModified >= xs:dateTime('2019-03-01T00:00:00.000+01:00'))))]</li>
-<li>cat list.txt | sed '/subassets/d' > list_nosub.txt</li>
+<li>In chrome open dev console</li>
+<li>Get view port from https://whatismyviewport.com/ and update Screen Size fields</li>
+<li>Visit the page you want to test cls. Then Consolidate and paste layout shift from chrome performance console into text area.</li>
+<li>Click explain</li>
 </ul>
 
 
 <fieldset>
-  <legend>List of Package Filter</legend>
+  <legend>Inputs CLS Report</legend>
 <div id="inputs">
-Package Name <input type="text" id="packageName">
-Version <input type="text" id="version">
-Group <input type="text" id="group" value="my_packages">
-Host <input type="text" id="hostname" value="http://localhost:4502/"><br/>
-Target <input type="text" id="targethostname" value="http://target:4502/"><br/>
-<input type="checkbox" id="excludeToken" >&nbsp;Exclude User token &nbsp;|
-<input type="checkbox" id="excludesubasset" >&nbsp;Exclude sub Assets &nbsp;&nbsp;|
-<input type="checkbox" id="excluderendition" >&nbsp;Exclude Renditions &nbsp;&nbsp;|
-<input type="checkbox" id="excludesubpage" >&nbsp;Only page without subpage &nbsp;&nbsp;|<br/>
-<input type="checkbox" id="inccrebui" >&nbsp;Include create build commands &nbsp;&nbsp;|
-<input type="checkbox" id="incbuicd" >&nbsp;Include build commands &nbsp;&nbsp;|
-<input type="checkbox" id="incupdncd" >&nbsp;Include upload/download commands &nbsp;&nbsp;|
-Split By  <input type="text" id="nlines" >&nbsp;&nbsp;|<br/>
-<textarea id="expectedList">
-</textarea>
-
-<input id="compare" type="button" onclick="startgenerate();" value="Generate">
+Screen Size: Width: <input id="width" type=text value=1440> Height: <input id="height" type=text value=248>
+<textarea id="actualReport">
+Moved fromLocation: [0,21], Size: [1371x18]
+Moved toLocation: [0,21], Size: [1371x18]
+Moved fromLocation: [376,60], Size: [149x100]
+Moved toLocation: [394,60], Size: [162x100]
+Moved fromLocation: [526,60], Size: [153x100]
+Moved toLocation: [556,60], Size: [168x100]
+Moved fromLocation: [679,60], Size: [64x100]
+Moved toLocation: [724,60], Size: [70x100]
+Moved fromLocation: [1002,60], Size: [372x100]
+Moved toLocation: [976,60], Size: [397x100]
+Moved fromLocation: [0,21], Size: [1371x17]
+Moved toLocation: [0,21], Size: [1371x17]
+Moved fromLocation: [196,62], Size: [532x96]
+Moved toLocation: [196,60], Size: [547x100]
+Moved fromLocation: [1009,60], Size: [364x100]
+Moved toLocation: [1002,60], Size: [372x100]
+Moved fromLocation: [0,214], Size: [1425x445]
+Moved toLocation: [0,202], Size: [1425x457]
+Moved fromLocation: [276,161], Size: [1006x42]
+Moved toLocation: [281,161], Size: [1002x42]
+Moved fromLocation: [0,21], Size: [1386x17]
+Moved toLocation: [0,21], Size: [1371x17]
+Moved fromLocation: [1401,18], Size: [24x24]
+Moved toLocation: [1386,18], Size: [24x24]
+Moved fromLocation: [1024,60], Size: [364x100]
+Moved toLocation: [1009,60], Size: [364x100]</textarea>
+<br/>
+<input id="Explain" type="button" onclick="startExplain();" value="Explain">
 <input id="clear" type="button" onclick="clearBoxes();" value="Clear">
 </div>
 </fieldset>
 
  <fieldset>
-  <legend>Results</legend>
+  <legend>Results of CLS</legend>
   <div id="countResult"></div>
 
+
+
+<table  id ="results" border=1 cellspacing="0" summary="Results of comparision">
+	<thead>
+		<tr>
+			<th>Unstable Width</th>
+			<th>Unstable Height</th>
+			<th>Viewport Width</th>
+			<th>Viewport Height</th>
+			<th>Impact Fraction</th>
+			<th>Distance</th>
+			<th>Distance Fraction</th>
+			<th>CLS Score</th>
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
 </fieldset>
 
 <!--- Integration Ends--->
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
 
-
-<div id="disqus_thread"></div>
-    <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'aemstuff'; // required: replace example with your forum shortname
-		var disqus_identifier = 'osgiconfigdifftool';
-
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
                 </div>
             </div>
-
-
         </div>
     </section>
 
@@ -443,8 +421,8 @@ Split By  <input type="text" id="nlines" >&nbsp;&nbsp;|<br/>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
     <script src="../js/classie.js"></script>
     <script src="../js/cbpAnimatedHeader.js"></script>
-
-
+  <!-- jQuery -->
+<script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <!-- DataTables -->
 <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
 
@@ -452,6 +430,8 @@ Split By  <input type="text" id="nlines" >&nbsp;&nbsp;|<br/>
 
     <!-- Custom Theme JavaScript -->
     <script src="../js/aemstuff_1.js"></script>
+    <script type="text/javascript" charset="utf8" src="../js/aemstuff.js">  </script>
+
 
 </body>
 
